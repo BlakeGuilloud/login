@@ -12,11 +12,11 @@ export function isAuthenticated(req, res, next) {
 export function authenticate(req, res, next) {
   passport.authenticate('local', (err, user) => {
     if (err) {
-      next(err); // will generate a 500 error
+      next(err);
     }
-    // user will be a false boolean if authentication failed
+
     if (!user) {
-      tael.SendError(res)(new tael.UnauthorizedError('Username and password did not match'));
+      return tael.SendError(res)(new tael.UnauthorizedError('Username and password did not match'));
     }
     req.login(user, (error) => {
       if (error) {
